@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LoginForm from "../components/LoginForm";
+import { useNavigate } from "react-router-dom";
 
 export default function Login(){
     const [prenom, setPrenom] = useState("");
@@ -7,21 +8,20 @@ export default function Login(){
     const assignPrenom = (e) => {
       setPrenom(e.target.value);
     }
+    const navigate = useNavigate();
   
     const submitPrenom = () => {
-      if (!prenom || prenom === "") {
-        return alert("Il faut rentrer un prénom!!!!");
-      }
-      alert("Bonjour, " + prenom + " !");
-      setPrenom("");
+
+        if (!prenom || prenom === "") {
+            return alert("Il faut rentrer un prénom!!!!");
+        }
+        navigate("/commande", { state: { prenom: prenom } })
     }
   
     return (
       <>
         <h1>Bienvenue chez nous !</h1>
         <h3>Connectez-vous</h3>
-        <input type="text" name="prenom" placeholder="Entrez votre prénom" value={prenom} onChange={(e) => assignPrenom(e)}></input>
-        <button onClick={() => submitPrenom()}> Accèdez à votre espace </button>
         <LoginForm 
             submitPrenom={() => submitPrenom()}
             assignPrenom={(e) => assignPrenom(e)}
