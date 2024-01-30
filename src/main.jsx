@@ -11,6 +11,7 @@ import styled, { css } from 'styled-components';
 import Login from './views/Login.jsx';
 import OrderPage from './views/OrderPage.jsx';
 import Error404 from './views/Error404.jsx'
+import Navbar from './components/Navbar.jsx';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,7 @@ const MainStyle = styled.div`
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <MainStyle>
+      <Navbar />
       <RouterProvider router={router} />
     </MainStyle>
   </React.StrictMode>
