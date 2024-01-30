@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
 import './index.css'
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import bgPicture from './assets/tarts.jpg';
+import styled, { css } from 'styled-components';
 
 import Login from './views/Login.jsx';
 import OrderPage from './views/OrderPage.jsx';
@@ -23,8 +24,15 @@ const router = createBrowserRouter([
   },
 ]);
 
+const MainStyle = styled.div`
+  background-image: url(${bgPicture});
+  height: 100vh;
+`
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
+    <MainStyle>
+      <RouterProvider router={router} />
+    </MainStyle>
+  </React.StrictMode>
 )
