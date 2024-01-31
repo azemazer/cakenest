@@ -3,13 +3,29 @@ import Logo from '../reusable-ui/Logo';
 import { FaUserAlt } from "react-icons/fa";
 import { theme } from "../../theme";
 import { refreshPage } from '../../mixins/global'
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Navbar({username, onDisconnect}) {
+
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    const onAdminCheck = (e) => {
+        if (!isAdmin){
+            toast("MODE ADMIN ACTIVÉ.")
+        }
+        setIsAdmin(e.target.checked);
+    }
 
     return(
         <NavbarStyle>
             <div className="nav-leftmost" onClick={() => refreshPage()}>
                 <Logo />
+            </div>
+
+            <div>
+                <label htmlFor="admin-mode">{isAdmin ? <span>Désactiver</span> : <span>Activer</span>} le mode Admin</label>
+                <input name="admin-mode" type="checkbox" onChange={(e) => onAdminCheck(e)}></input>
             </div>
                 
             <div className="nav-leftmost">
