@@ -5,6 +5,7 @@ import { theme } from "../../theme";
 import { refreshPage } from '../../mixins/global'
 import { useState } from "react";
 import { toast } from "react-toastify";
+import ToggleRound from "../reusable-ui/ToggleRound";
 
 export default function Navbar({username, onDisconnect}) {
 
@@ -23,9 +24,9 @@ export default function Navbar({username, onDisconnect}) {
                 <Logo />
             </div>
 
-            <div>
-                <label htmlFor="admin-mode">{isAdmin ? <span>Désactiver</span> : <span>Activer</span>} le mode Admin</label>
-                <input name="admin-mode" type="checkbox" onChange={(e) => onAdminCheck(e)}></input>
+            <div className="nav-center">
+                <ToggleRound onBoolChange={(e) => onAdminCheck(e)} />
+                <p>{isAdmin ? <span>Désactiver</span> : <span>Activer</span>} le mode Admin</p>
             </div>
                 
             <div className="nav-leftmost">
@@ -58,6 +59,12 @@ const NavbarStyle = styled.div`
         flex-flow: row;
         align-items: center;
         margin: ${theme.spacing.sm};
+    }
+    .nav-center {
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        gap: ${theme.spacing.sm}
     }
     p {
         font-family: 'Open Sans', 'sans-serif';
