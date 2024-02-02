@@ -6,11 +6,13 @@ import { theme } from "../../../theme";
 import { useNavigate } from "react-router-dom";
 import { fakeMenu, fakeSmallMenu } from "../../../data/fakeMenu";
 import Article from "../../reusable-ui/Article";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import BSwiper from "../../layout/BSwiper";
 import MenuContext from "../../../context/MenuContext";
 
-export default function OrderPage(props) {
+export default function OrderPage() {
+
+    
     const {username} = useParams();
 
     const navigate = useNavigate();
@@ -21,6 +23,7 @@ export default function OrderPage(props) {
     ]
 
     const [menuData, setMenuData] = useState(fakeMenu);
+
     const [selectedMenuId, setSelectedMenuId] = useState(0);
     const menuContextValue = {
         menuData,
@@ -43,10 +46,10 @@ export default function OrderPage(props) {
         setMenuData(newMenuData);
     }
 
-    useEffect(
-        () => doNothing(),
-        [menuData]
-    )
+    // useEffect(
+    //     () => doNothing(),
+    //     [useContext(MenuContext)]
+    // )
 
     return (
         <OrderPageStyle>

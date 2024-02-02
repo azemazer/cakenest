@@ -2,7 +2,7 @@ import { createContext } from "react";
 
 export default createContext({
     menuData: [],
-    setDocumentColor: () => {},
+    setMenuData: () => {},
     selectedMenuId: 0,
     setSelectedMenuId: () => {},
 })

@@ -91,15 +91,12 @@ export default function BSwiperContent({title}) {
 
         let newSetOfArticles = menuData;
         
-        
         const articleAlreadyExist = menuData.find(x => x.id === articleInfos.id) ?? false;
         console.log(articleAlreadyExist)
         
         if (articleAlreadyExist) {
             newSetOfArticles.splice(newSetOfArticles.indexOf(articleAlreadyExist), 1);
         }
-
-        const randlol = selectedMenuId;
 
         newSetOfArticles.push(articleInfos);
 
