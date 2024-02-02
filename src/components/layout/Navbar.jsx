@@ -7,7 +7,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import ToggleRound from "../reusable-ui/ToggleRound";
 
-export default function Navbar({username, onDisconnect}) {
+export default function Navbar({username, onDisconnect, onAdminStateChange}) {
 
     const [isAdmin, setIsAdmin] = useState(false);
 
@@ -16,6 +16,7 @@ export default function Navbar({username, onDisconnect}) {
             toast("MODE ADMIN ACTIVÉ.")
         }
         setIsAdmin(e.target.checked);
+        onAdminStateChange(e.target.checked);
     }
 
     return(

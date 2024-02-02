@@ -6,21 +6,33 @@ import { theme } from "../../../theme";
 import { useNavigate } from "react-router-dom";
 import { fakeMenu, fakeSmallMenu } from "../../../data/fakeMenu";
 import Article from "../../reusable-ui/Article";
+import { useState } from "react";
+import BSwiper from "../../layout/BSwiper";
 
 export default function OrderPage(props) {
     const {username} = useParams();
 
     const navigate = useNavigate();
 
+    const adminTabs = [
+        {id: 1, label: "Ajouter un article"},
+        {id: 2, label: "Modifier un article"},
+    ]
+
+    const [selectedTab, setSelectedTab] = useState({id: 1, label: "Ajouter un article"});
+
+    const [isAdmin, setIsAdmin] = useState(false);
+
     return (
         <OrderPageStyle>
             <div className="container">
-                <Navbar username={username} onDisconnect={() => navigate('/')}/>
+                <Navbar username={username} onDisconnect={() => navigate('/')} onAdminStateChange={(isAdmin) => setIsAdmin(isAdmin)}/>
                 <div className="shop">
                     {fakeMenu.map((article) => 
                         <Article article={article} key={article.id}/>
                     )}
                 </div>
+                {isAdmin ? <BSwiper tabs={adminTabs} selectedTab={selectedTab} setSelectedTab={(tab) => setSelectedTab(tab)}/> : null}
             </div>
         </OrderPageStyle>
     );
