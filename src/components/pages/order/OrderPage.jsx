@@ -37,6 +37,12 @@ export default function OrderPage(props) {
         console.log("did nothing")
     }
 
+    const deleteArticle = (article) => {
+        let newMenuData = menuData;
+        newMenuData.splice(newMenuData.indexOf(article), 1);
+        setMenuData(newMenuData);
+    }
+
     useEffect(
         () => doNothing(),
         [menuData]
@@ -50,7 +56,7 @@ export default function OrderPage(props) {
                     <div className="shop">
                         {menuData.map((article) => 
                             <div onClick={() => setSelectedMenuId(article.id)}>
-                                <Article article={article} key={article.id} isAdmin={isAdmin}/>
+                                <Article article={article} key={article.id} isAdmin={isAdmin} deleteArticle={(article) => deleteArticle(article)}/>
                             </div>
                         )}
                     </div>

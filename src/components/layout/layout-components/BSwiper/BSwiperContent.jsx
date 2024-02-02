@@ -2,13 +2,12 @@ import MenuContext from "../../../../context/MenuContext";
 import { useContext, useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
-export default function BSwiperContent({title, content, setContent}) {
+export default function BSwiperContent({title}) {
 
     const {
         menuData,
         setMenuData,
         selectedMenuId,
-        setSelectedMenuId
     } = useContext(MenuContext);
 
     const emptyArticle = {
@@ -97,7 +96,7 @@ export default function BSwiperContent({title, content, setContent}) {
         console.log(articleAlreadyExist)
         
         if (articleAlreadyExist) {
-            newSetOfArticles.splice(articleAlreadyExist, 1);
+            newSetOfArticles.splice(newSetOfArticles.indexOf(articleAlreadyExist), 1);
         }
 
         const randlol = selectedMenuId;

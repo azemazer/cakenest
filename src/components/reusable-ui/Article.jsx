@@ -2,11 +2,12 @@ import styled from "styled-components";
 import { theme } from "../../theme";
 import { formatPrice } from "../../mixins/maths";
 
-export default function Article ({article, isAdmin}) {
+
+export default function Article ({article, isAdmin, deleteArticle}) {
 
     return(
         <ArticleStyle>
-            {isAdmin ? <button className="article-button-delete">X</button> : null}
+            {isAdmin ? <button className="article-button-delete" onClick={()=>deleteArticle(article)}>X</button> : null}
             <img src={article.imageSource} alt={"Image de " + article.title} />
             <p className="article-title">{article.title}</p>
             <div className="article-desc">
