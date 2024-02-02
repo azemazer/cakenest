@@ -2,10 +2,11 @@ import styled from "styled-components";
 import { theme } from "../../theme";
 import { formatPrice } from "../../mixins/maths";
 
-export default function Article ({article}) {
+export default function Article ({article, isAdmin}) {
 
     return(
         <ArticleStyle>
+            {isAdmin ? <button className="article-button-delete">X</button> : null}
             <img src={article.imageSource} alt={"Image de " + article.title} />
             <p className="article-title">{article.title}</p>
             <div className="article-desc">
@@ -55,6 +56,10 @@ const ArticleStyle = styled.div`
     .article-button-add {
         background-color: ${theme.colors.primary};
         color: ${theme.colors.white};
+    }
+    .article-button-delete {
+        background-color: ${theme.colors.background_white};
+        color: ${theme.colors.red};
     }
 
 `

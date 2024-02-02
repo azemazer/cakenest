@@ -5,8 +5,6 @@ import styled from "styled-components";
 
 export default function BSwiper({tabs, selectedTab, setSelectedTab}) {
 
-    const [content, setContent] = useState("");
-
     const onTabClick = (tab) => {
         setSelectedTab(tab);
         console.log(tab);
@@ -31,7 +29,7 @@ export default function BSwiper({tabs, selectedTab, setSelectedTab}) {
             )}
         </div>
         { selectedTab ?
-        <BSwiperContent title={selectedTab.label} content={content} setContent={() => setContent()}/>
+        <BSwiperContent title={selectedTab.label}/>
         :null
         }
     </BSwiperStyle>)
