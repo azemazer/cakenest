@@ -1,6 +1,7 @@
 import MenuContext from "../../../../context/MenuContext";
 import { useContext, useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
+import apiAxios from "../../../../../libs/axios";
 
 export default function BSwiperContent({title}) {
 
@@ -36,7 +37,6 @@ export default function BSwiperContent({title}) {
             ...articleInfos,
             title: title
         });
-        console.log(selectedMenuId)
     }
 
     const setArticlePrice = (e) => {
@@ -56,7 +56,7 @@ export default function BSwiperContent({title}) {
     }
 
     const setArticleIsAvailable = (e) => {
-        const isAvailable = e.target.value;
+        const isAvailable = e.target.value === "true";
         setArticleInfos({
             ...articleInfos,
             isAvailable: isAvailable
@@ -64,7 +64,7 @@ export default function BSwiperContent({title}) {
     }
 
     const setArticleIsAdvertised = (e) => {
-        const isAdvertised = e.target.value;
+        const isAdvertised = e.target.value === "true";
         setArticleInfos({
             ...articleInfos,
             isAdvertised: isAdvertised
@@ -73,12 +73,10 @@ export default function BSwiperContent({title}) {
 
     const onArticleSelected = () => {
         const newArticle = menuData.find(x => x.id === selectedMenuId)
-        console.log(selectedMenuId);
-        console.log(newArticle);
         setArticleInfos(newArticle ?? emptyArticle)
     }
 
-    const saveArticle = () => {
+    const saveArticle = async() => {
         if (articleInfos.title == "") {
             return alert("Aucun titre renseigné !")
         }
@@ -92,13 +90,19 @@ export default function BSwiperContent({title}) {
         let newSetOfArticles = menuData;
         
         const articleAlreadyExist = menuData.find(x => x.id === articleInfos.id) ?? false;
-        console.log(articleAlreadyExist)
-        
+        let response = null
         if (articleAlreadyExist) {
+            response = await apiAxios.put('/api/cupcake/' + articleAlreadyExist.id, 
+                articleInfos
+            )
             newSetOfArticles.splice(newSetOfArticles.indexOf(articleAlreadyExist), 1);
+        } else {
+            response = await apiAxios.post('/api/cupcake', 
+                articleInfos
+            )
         }
 
-        newSetOfArticles.push(articleInfos);
+        newSetOfArticles = [articleInfos, ...newSetOfArticles];
 
         setMenuData(newSetOfArticles);
 

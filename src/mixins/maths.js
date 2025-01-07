@@ -7,7 +7,7 @@ export function formatPrice(priceToFormat) {
   const formattedPrice = new Intl.NumberFormat("fr-FR", {
     style: "currency",
     currency: "EUR",
-  }).format(price)
+  }).format(price / 100)
   return formattedPrice
 }
 

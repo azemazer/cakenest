@@ -3,22 +3,39 @@ import { useNavigate } from "react-router-dom";
 import { IoChevronForward } from "react-icons/io5";
 import styled from "styled-components";
 import TextInput from "../../reusable-ui/TextInput";
-import { BsPersonCircle } from "react-icons/bs";
+import { BsPersonCircle, BsFillKeyFill } from "react-icons/bs";
 import PrimaryButton from "../../reusable-ui/PrimaryButton";
 import { theme } from "../../../theme";
+import apiAxios from "../../../../libs/axios";
 
 export default function LoginForm() {
-    const [inputValue, setInputValue] = useState("");
+    const [emailValue, setEmailValue] = useState("");
+    const [passwordValue, setPasswordValue] = useState("");
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setInputValue("");
-        navigate(`/order/${inputValue}`);
+        setEmailValue("");
+        let response = {}
+        try {
+            await apiAxios.get('/sanctum/csrf-cookie')
+            response = await apiAxios.post('/login', {
+                "email": emailValue,
+                "password": passwordValue
+            })
+            console.log(response)
+        } catch {
+            return alert("Mot de passe invalide/Mail inconnu")
+        }
+        return navigate(`/order/${response.data.name}`);
     };
 
-    const handlechange = (e) => {
-        setInputValue(e.target.value);
+    const handleEmailChange = (e) => {
+        setEmailValue(e.target.value);
+    };
+
+    const handlePasswordChange = (e) => {
+        setPasswordValue(e.target.value);
     };
 
     return (
@@ -26,7 +43,8 @@ export default function LoginForm() {
             <h1>Bienvenue chez nous !</h1>
             <hr />
             <h2>Connectez-vous</h2>
-            <TextInput value={inputValue} onChange={handlechange} placeholder={"Entrez votre prénom"} required Icon={<BsPersonCircle className="icon" />} />
+            <TextInput value={emailValue} onChange={handleEmailChange} placeholder={"Entrez votre email"} required Icon={<BsPersonCircle className="icon" />} />
+            <TextInput value={passwordValue} type="password" onChange={handlePasswordChange} placeholder={"Entrez votre mot de passe"} required Icon={<BsFillKeyFill className="icon" />} />
 
             <PrimaryButton Icon={<IoChevronForward className="icon"/>} label={"Mon espace"}/>
         </LoginFormStyled>

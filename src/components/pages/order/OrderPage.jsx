@@ -9,6 +9,7 @@ import Article from "../../reusable-ui/Article";
 import { useState, useEffect, useContext } from "react";
 import BSwiper from "../../layout/BSwiper";
 import MenuContext from "../../../context/MenuContext";
+import apiAxios from "../../../../libs/axios";
 
 export default function OrderPage() {
 
@@ -22,7 +23,19 @@ export default function OrderPage() {
         {id: 2, label: "Modifier un article"},
     ]
 
-    const [menuData, setMenuData] = useState(fakeMenu);
+    const [menuData, setMenuData] = useState([]);
+
+    useEffect(() => {
+        fetchMenuData();
+    }, [])
+
+    const fetchMenuData = async() => {
+        const response = await apiAxios({
+            method: 'get',
+            url: '/api/cupcake'
+        })
+        setMenuData(response.data)
+    }
 
     const [selectedMenuId, setSelectedMenuId] = useState(0);
     const menuContextValue = {
@@ -37,28 +50,37 @@ export default function OrderPage() {
     const [isAdmin, setIsAdmin] = useState(false);
 
     const doNothing = () => {
-        console.log("did nothing")
     }
 
-    const deleteArticle = (article) => {
-        let newMenuData = menuData;
-        newMenuData.splice(newMenuData.indexOf(article), 1);
-        setMenuData(newMenuData);
+    const deleteArticle = async(article) => {
+        const response = await apiAxios({
+            method: 'delete',
+            url: '/api/cupcake/' + article.id
+        })
+        if(response && response.status == 200){
+            let newMenuData = menuData;
+            newMenuData.splice(newMenuData.indexOf(article), 1);
+            setMenuData([...newMenuData]);
+        }
     }
 
-    // useEffect(
-    //     () => doNothing(),
-    //     [useContext(MenuContext)]
-    // )
+    const onDisconnect = async() => {
+        try {
+            const response = await apiAxios.post('/logout', {})
+        } catch {
+            return alert("Couldn't disconnect.")
+        }
+        navigate('/')
+    }
 
     return (
         <OrderPageStyle>
             <MenuContext.Provider value={menuContextValue}>
                 <div className="container">
-                    <Navbar username={username} onDisconnect={() => navigate('/')} onAdminStateChange={(isAdmin) => setIsAdmin(isAdmin)}/>
+                    <Navbar username={username} onDisconnect={onDisconnect} onAdminStateChange={(isAdmin) => setIsAdmin(isAdmin)}/>
                     <div className="shop">
                         {menuData.map((article) => 
-                            <div onClick={() => setSelectedMenuId(article.id)}>
+                            <div onClick={() => setSelectedMenuId(article.id)} key={article.id}>
                                 <Article article={article} key={article.id} isAdmin={isAdmin} deleteArticle={(article) => deleteArticle(article)}/>
                             </div>
                         )}
